@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 '''
 '''
-from udp_tracker_client import UdpTrackerClient
+from subtl import UdpTrackerClient
 
 HASHES = [
     '089184ED52AA37F71801391C451C5D5ADD0D9501',
