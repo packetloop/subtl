@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 '''
 Based on the specification at http://bittorrent.org/beps/bep_0015.html
 '''
