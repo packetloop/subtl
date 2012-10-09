@@ -11,10 +11,9 @@ This short example will list a few IP Addresses from a certain hash:
     from subtl import UdpTrackerClient
     utc = UdpTrackerClient('tracker.openbittorrent.com', 80)
     utc.connect()
-    if utc.poll_once():
-        print('Success!')
-    else:
+    if not utc.poll_once():
         raise Exception('Could not connect')
+    print('Success!')
 
     utc.announce(info_hash='089184ED52AA37F71801391C451C5D5ADD0D9501')
     data = utc.poll_once()
@@ -26,3 +25,4 @@ This short example will list a few IP Addresses from a certain hash:
 ## Caveats
 
  * There is no automatic retrying of sending packets yet.
+ * This library won't download torrent files--it is simply a tracker client.
