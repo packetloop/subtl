@@ -2,8 +2,7 @@
 
 ## Overview
 
-SUBTL is a *s*imple *U*DP *B*itTorrent *t*racker *l*ibrary for Python,
-licenced under the modified BSD license.
+SUBTL is a **s**imple **U**DP **B**itTorrent **t**racker **l**ibrary for Python, licenced under the modified BSD license.
 
 ## Example
 
@@ -26,4 +25,4 @@ This short example will list a few IP Addresses from a certain hash:
 
 ## Caveats
 
- * There is no automatic trying of sending packets, yet.
+ * There is no automatic retrying of sending packets yet.
