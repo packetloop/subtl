@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 '''
 Based on the specification at http://bittorrent.org/beps/bep_0015.html
 '''
@@ -15,6 +14,19 @@ CONNECT = 0
 ANNOUNCE = 1
 SCRAPE = 2
 ERROR = 3
+
+
+def norm_info_hash(info_hash):
+    if len(info_hash) == 40:
+        info_hash = info_hash.decode('hex')
+    if len(info_hash) != 20:
+        raise UdpTrackerClientException(
+            'info_hash length is not 20: {}'.format(len(info_hash)))
+    return info_hash
+
+
+def info_hash_to_str(info_hash):
+    return binascii.hexlify(info_hash)
 
 
 class UdpTrackerClientException(Exception):
@@ -58,7 +70,7 @@ class UdpTrackerClient:
         self._check_fields(args, fields)
 
         # Humans tend to use hex representations of the hash. Wasteful humans.
-        args['info_hash'] = self._norm_info_hash(args['info_hash'])
+        args['info_hash'] = norm_info_hash(args['info_hash'])
 
         values = [args[a] for a in fields.split()]
         payload = struct.pack('!20s20sQQQLLLLH', *values)
@@ -70,7 +82,7 @@ class UdpTrackerClient:
 
         payload = ''
         for info_hash in info_hash_list:
-            info_hash = self._norm_info_hash(info_hash)
+            info_hash = norm_info_hash(info_hash)
             payload += info_hash
 
         trans = self._send(SCRAPE, payload)
@@ -205,13 +217,3 @@ class UdpTrackerClient:
             except KeyError:
                 raise UdpTrackerClientException('field missing: {}'.format(f))
 
-    def _norm_info_hash(self, info_hash):
-        if len(info_hash) == 40:
-            info_hash = info_hash.decode('hex')
-        if len(info_hash) != 20:
-            raise UdpTrackerClientException(
-                'info_hash length is not 20: {}'.format(len(info_hash)))
-        return info_hash
-
-    def _info_hash_to_str(self, info_hash):
-        return binascii.hexlify(info_hash)
